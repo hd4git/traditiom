@@ -1,0 +1,23 @@
+T.theta	"T"~theta
+T.eta	"T"~eta
+T.epsilon	"T"~epsilon
+T.zeta	"T"~zeta
+AI.delta	"AI"~delta
+T.gamma	"T"~gamma
+T.delta	"T"~delta
+T.alpha	"T"~alpha
+T.beta	"T"~beta
+AI.alpha	"AI"~alpha
+AI.gamma	"AI"~gamma
+AI.beta	"AI"~beta
+AI.epsilon	"AI"~epsilon
+T.gamma_TEP	"T"~gamma~"TEP"
+T.delta_TEP	"T"~delta~"TEP"
+T.alpha_TEP	"T"~alpha~"TEP"
+T.beta_TEP	"T"~beta ~ "TEP"
+AI.alpha_TEP	"AI"~alpha ~ "TEP"
+AI.gamma_TEP	"AI"~gamma ~ "TEP"
+AI.beta_TEP	"AI"~beta ~ "TEP"
+T.epsilon_TEP	"T"~epsilon ~ "TEP"	
+T.zeta_TEP	"T"~zeta ~ "TEP"
+AI.epsilon_TEP	"AI"~epsilon ~ "TEP"	
