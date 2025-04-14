@@ -14,11 +14,11 @@ require("celldex")
 
 setwd("~/spatialTranscriptomics/")
 
-target_demoData <- readRDS("rds/target_demoData.rds")
-target_demoData <- readRDS("rds/target_demoData_all.rds")
+target_patientData <- readRDS("rds/target_patientData.rds")
+target_patientData <- readRDS("rds/target_patientData_all.rds")
 
-bg <- SpatialDecon::derive_GeoMx_background(norm = assayDataElement(target_demoData, elt = "log_q"),
-                             probepool = fData(target_demoData)$Module,
+bg <- SpatialDecon::derive_GeoMx_background(norm = assayDataElement(target_patientData, elt = "log_q"),
+                             probepool = fData(target_patientData)$Module,
                              negnames = c("NegProbe-WTX"))
 
 hpca.se <- HumanPrimaryCellAtlasData()
@@ -32,12 +32,12 @@ hpca.exp.mat <- hpca.exp[,-1]
 rownames(hpca.exp.mat) <- hpca.exp[,1]
 hpca.exp.mat <- as.matrix(hpca.exp.mat)
 
-res <- runspatialdecon(object = target_demoData,
+res <- runspatialdecon(object = target_patientData,
                       norm_elt = "log_q",
                       raw_elt = "exprs",
                       X = hpca.exp.mat,
                       align_genes = TRUE)
-# res <- runspatialdecon(object = target_demoData,
+# res <- runspatialdecon(object = target_patientData,
 #                       norm_elt = "log_q",
 #                       raw_elt = "exprs",
 #                       X = safeTME,

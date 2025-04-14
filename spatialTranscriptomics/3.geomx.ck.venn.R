@@ -5,7 +5,7 @@ pa.down<-read.table("rds/pa.down.new.txt", header=F, stringsAsFactors=F)[,1]
 ordered.sub1.high.info <- read.table("rds/infoDormancyUp.txt", sep="\t")
 ordered.sub2.high.info <- read.table("rds/infoDormancyDown.txt", sep="\t")
 
-exp <- rownames(fData(target_demoData[sData(target_demoData)$segment=="CK+"]))
+exp <- rownames(fData(target_patientData[sData(target_patientData)$segment=="CK+"]))
 write.table(exp, "rds/geomx.ck.genes.txt", sep="\t", quote=F, row.names=F, col.names=F)
 expUp <- exp[exp %in% paUp]
 expDown <- exp[exp %in% paDown]

@@ -20,7 +20,7 @@ require("pheatmap")
 setwd("~/spatialTranscriptomics/")
 
 sigDEGs <- readRDS("rds/sigDEGs.RDS") 
-target_demoData <- readRDS("rds/target_demoData_all.rds")
+target_patientData <- readRDS("rds/target_patientData_all.rds")
 # write.table(melt(sigDEGs[[1]], id.vars=colnames(sigDEGs[[1]][[1]])), "rds/sigDEGsPOS.txt", sep="\t",quote=F,row.names=F,col.names=T)
 # write.table(melt(sigDEGs[[2]], id.vars=colnames(sigDEGs[[2]][[1]])), "rds/sigDEGsNEG.txt", sep="\t",quote=F,row.names=F,col.names=T)
 

@@ -1,17 +1,17 @@
-target_demoData_all <- readRDS("rds/target_demoData_all.rds")
+target_patientData_all <- readRDS("rds/target_patientData_all.rds")
 getDE <- function(selSegment, comp, group, formula, selSamples){
-    target_demoData <- target_demoData_all
-    # target_demoData <- target_demoData[,pData(target_demoData)$segment == selSegment & pData(target_demoData)$sampleNameNew %in% comp]
-    target_demoData <- target_demoData[,pData(target_demoData)$segment == selSegment & pData(target_demoData)$region %in% comp & pData(target_demoData)$sampleNameNew %in% selSamples]
-    pData(target_demoData)[["sample"]] <- factor(pData(target_demoData)[["sampleNameNew"]])
-    pData(target_demoData)[["roi2"]] <- factor(pData(target_demoData)[["roi"]])
+    target_patientData <- target_patientData_all
+    # target_patientData <- target_patientData[,pData(target_patientData)$segment == selSegment & pData(target_patientData)$sampleNameNew %in% comp]
+    target_patientData <- target_patientData[,pData(target_patientData)$segment == selSegment & pData(target_patientData)$region %in% comp & pData(target_patientData)$sampleNameNew %in% selSamples]
+    pData(target_patientData)[["sample"]] <- factor(pData(target_patientData)[["sampleNameNew"]])
+    pData(target_patientData)[["roi2"]] <- factor(pData(target_patientData)[["roi"]])
 
-    pData(target_demoData)$region <- factor(pData(target_demoData)$region, c("core", "edge"))
-    pData(target_demoData)$side <- factor(pData(target_demoData)$side, c("right", "left"))
-    pData(target_demoData)$type <- factor(pData(target_demoData)$type, c("relapse", "surgery", "diagnostic"))
-    assayDataElement(object = target_demoData, elt = "log_q") <-
-        assayDataApply(target_demoData, 2, FUN = log, base = 2, elt = "q_norm")
-    mixedOutmc <- mixedModelDE(target_demoData,
+    pData(target_patientData)$region <- factor(pData(target_patientData)$region, c("core", "edge"))
+    pData(target_patientData)$side <- factor(pData(target_patientData)$side, c("right", "left"))
+    pData(target_patientData)$type <- factor(pData(target_patientData)$type, c("relapse", "surgery", "diagnostic"))
+    assayDataElement(object = target_patientData, elt = "log_q") <-
+        assayDataApply(target_patientData, 2, FUN = log, base = 2, elt = "q_norm")
+    mixedOutmc <- mixedModelDE(target_patientData,
                      elt = "log_q",
                      # modelFormula = ~ testRegion + (1 + testRegion | sample),
                      modelFormula = formula,
@@ -59,18 +59,18 @@ results
 
 plotDE <- function(results, selSegment, comp, group, formula){
     # Graph results
-    target_demoData <- target_demoData_all
-    target_demoData <- target_demoData[,pData(target_demoData)$segment == selSegment & pData(target_demoData)$sampleNameNew %in% comp]
-    pData(target_demoData)[["sample"]] <- factor(pData(target_demoData)[["sampleNameNew"]])
+    target_patientData <- target_patientData_all
+    target_patientData <- target_patientData[,pData(target_patientData)$segment == selSegment & pData(target_patientData)$sampleNameNew %in% comp]
+    pData(target_patientData)[["sample"]] <- factor(pData(target_patientData)[["sampleNameNew"]])
 
-    pData(target_demoData)$side <- factor(pData(target_demoData)$side, c("right", "left"))
-    pData(target_demoData)$type <- factor(pData(target_demoData)$type, c("relapse", "surgery", "diagnostic"))
+    pData(target_patientData)$side <- factor(pData(target_patientData)$side, c("right", "left"))
+    pData(target_patientData)$type <- factor(pData(target_patientData)$type, c("relapse", "surgery", "diagnostic"))
     filename <- paste("plots/DE/",comp[1],"Vs",comp[2],".", selSegment,"2.pdf", sep="")
     pdf(filename, height=20, width=10)
         # facet_wrap(~Subset, scales = "free_y")
 
     GOI <- unique(subset(results, (abs(results$Estimate)>0.5 & FDR < 0.05) | (abs(results$Estimate)>0.5 & Pr < 0.0005))$Gene)
-    pheatmap(log2(assayDataElement(target_demoData[GOI, ], elt = "q_norm")),
+    pheatmap(log2(assayDataElement(target_patientData[GOI, ], elt = "q_norm")),
              scale = "row", 
              show_rownames = TRUE, show_colnames = FALSE,
              border_color = NA,
@@ -81,7 +81,7 @@ plotDE <- function(results, selSegment, comp, group, formula){
              main = paste("Segment=",selSegment, ", Comparison=",comp[1], "Vs", comp[2], sep=""),
              # breaks = seq(-3, 3, 0.05),
              # color = colorRampPalette(c("purple3", "black", "yellow2"))(120),
-             annotation_col = pData(target_demoData)[, c("type", "region", "sampleNameNew")])
+             annotation_col = pData(target_patientData)[, c("type", "region", "sampleNameNew")])
    ggplot(results,
            aes(x = Estimate, y = -log10(Pr),
                color = Color, label = Gene)) +
